@@ -4,10 +4,40 @@ public class PlayerClick : MonoBehaviour
 {
     public ItemScriptable itemScriptable;
     public Sprite currentItemClicked;
+    public int indexHolder;
 
-    private void OnMouseDown()
+    private void Update()
     {
-        Setup(itemScriptable);
+        foreach (var inp in Input.inputString)
+        {
+            if (char.IsDigit(inp))
+            {
+                indexHolder = int.Parse(inp.ToString());
+            }
+        }
+
+        InputControls();
+    }
+
+    void InputControls()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit))
+            {
+                if(hit.collider != null && hit.collider.gameObject.GetComponent<ObjectType>() != null)
+                {
+                    // before deleting it, set its sprite from inventory item but before that keep a BUTTON MANAGER which tells u.. which is the NEXT BUTTON SPRITE (easier)
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            InventoryManager.instance.RemoveItem(indexHolder);
+        }
     }
 
     public void Setup(ItemScriptable itemScriptable)

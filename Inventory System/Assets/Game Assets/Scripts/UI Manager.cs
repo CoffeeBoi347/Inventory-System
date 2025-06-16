@@ -4,31 +4,33 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
+    public static UIManager instance; 
+    public List<InventoryItem> inventoryItems = new List<InventoryItem>();
     public List<Image> buttonChildrenImage = new List<Image>();
     public List<Button> buttons = new List<Button>();
 
-    private void Awake()
+    private void Awake() 
     {
-        if(instance == null)
-        {
-            instance = this;
-        }
-        else
+        //ensuring only a single instance persists across all scenes
+
+        if(instance != null & instance != this)
         {
             Destroy(gameObject);
         }
 
-        DontDestroyOnLoad(this.gameObject);
+        instance = this;
+        DontDestroyOnLoad(this);
     }
 
     private void Start()
     {
+        //for each button in the list, we access the first image object and add that to the buttonChildrenImage list
         foreach (var button in buttons)
         {
             var getChildren = button.GetComponentsInChildren<Image>()[0];
             buttonChildrenImage.Add(getChildren);
         }
+
     }
 
     private void OnEnable()
@@ -47,7 +49,18 @@ public class UIManager : MonoBehaviour
         if (index <= buttonChildrenImage.Count - 1)
         {
             buttonChildrenImage[index].sprite = updater.addedSprite;
+
         }
+
+        else if(index > buttonChildrenImage.Count - 1)
+        {
+            Debug.LogError("Out of index boundaries! Throw an object to remove it.");
+        }
+    }
+
+    public void AddButton(GameObject buttonType, GameObject buttonParent)
+    {
+        Instantiate(buttonType, buttonParent.transform);
     }
 
 }

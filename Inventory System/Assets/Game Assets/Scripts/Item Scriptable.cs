@@ -22,5 +22,6 @@ public enum ItemType
     Banana,
     Cherry,
     Mango,
-    Strawberry
+    Strawberry,
+    None
 }

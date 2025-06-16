@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryUpdater 
+public class InventoryUpdater
 {
     public ItemScriptable addedItem;
     public Sprite addedSprite;
@@ -17,5 +17,10 @@ public class InventoryUpdater
         }
 
         return this;
+    }
+
+    public void CreateUIElement(GameObject prefab, Transform parent)
+    {
+        GameObject.Instantiate(prefab, parent);
     }
 }
