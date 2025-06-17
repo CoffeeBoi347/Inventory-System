@@ -30,6 +30,7 @@ public class InventoryManager : MonoBehaviour
         if (instance != null && instance != this)
         {
             Destroy(gameObject);
+            return;
         }
 
         instance = this;
@@ -48,7 +49,7 @@ public class InventoryManager : MonoBehaviour
     {
         InventoryUpdater updater = new InventoryUpdater();
         updater.AddInventory(inventorySprites, inventory, scriptableItem);
-        updater.CreateUIElement(inventoryObj, inventoryParent.transform);
+        updater.CreateUIElement(inventoryObj, inventoryParent.transform, scriptableItem.itemSprite);
         OnAddItem?.Invoke(updater);
     }
 

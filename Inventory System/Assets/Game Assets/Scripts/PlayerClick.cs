@@ -1,3 +1,4 @@
+using System.Dynamic;
 using UnityEngine;
 
 public class PlayerClick : MonoBehaviour
@@ -23,16 +24,15 @@ public class PlayerClick : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if(Physics.Raycast(ray, out hit))
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector3.zero);
+
+            if(hit.collider != null)
             {
-                if(hit.collider != null && hit.collider.gameObject.GetComponent<ObjectType>() != null)
-                {
-                    var getObjectType = hit.collider.gameObject.GetComponent<ObjectType>().scriptableItem;
-                    InventoryManager.instance.AddItem(getObjectType);
-                }
+                var getComponentObjectType = hit.collider.GetComponent<ObjectType>();
+                Setup(getComponentObjectType.scriptableItem);
             }
+
         }
 
         if (Input.GetKeyDown(KeyCode.R))

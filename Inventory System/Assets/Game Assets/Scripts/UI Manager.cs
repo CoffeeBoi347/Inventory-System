@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour
         if(instance != null && instance != this)
         {
             Destroy(gameObject);
+            return;
         }
 
         instance = this;
@@ -60,7 +61,7 @@ public class UIManager : MonoBehaviour
 
     public void AddButton(GameObject buttonType, GameObject buttonParent)
     {
-        Instantiate(buttonType, buttonParent.transform);
+        GameObject buttonTypeObj = Instantiate(buttonType, buttonParent.transform);
     }
 
     public void DestroyItem(int index)

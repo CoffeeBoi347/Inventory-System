@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class InventoryUpdater
+public class InventoryUpdater : MonoBehaviour
 {
     public ItemScriptable addedItem;
     public Sprite addedSprite;
     public InventoryUpdater AddInventory(List<Sprite> newSprite, List<ItemScriptable> inventoryHolder, ItemScriptable newItem)
     {
+        Debug.Log("ADD INVENTORY!");
         if(newItem != null)
         {
             newSprite.Add(newItem.itemSprite);
@@ -27,8 +29,9 @@ public class InventoryUpdater
         return null;
     }
 
-    public void CreateUIElement(GameObject prefab, Transform parent)
+    public void CreateUIElement(GameObject prefab, Transform parent, Sprite newSprite)
     {
-        GameObject.Instantiate(prefab, parent);
+        GameObject buttonDataObj = GameObject.Instantiate(prefab, parent);
+        buttonDataObj.GetComponentsInChildren<Image>()[1].sprite = newSprite;
     }
 }
