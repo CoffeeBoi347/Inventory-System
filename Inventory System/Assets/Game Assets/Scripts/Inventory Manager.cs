@@ -15,7 +15,7 @@ public class InventoryManager : MonoBehaviour
     [Header("Storing Data")]
 
     public List<ItemScriptable> inventory = new List<ItemScriptable>();
-    public List<GameObject> currentInventoryObjs = new List<GameObject>();
+//  public List<GameObject> currentInventoryObjs = new List<GameObject>();
     public List<Sprite> inventorySprites = new List<Sprite>();
 
     public GameObject inventoryObj;
@@ -54,7 +54,7 @@ public class InventoryManager : MonoBehaviour
 
     public void RemoveItem(int holdIndex)
     {
-        if(holdIndex <= inventory.Count)
+        if(holdIndex >= 0 && holdIndex < inventory.Count)
         {
             var itemToRemove = inventory[holdIndex];
             DropItem(holdIndex);
@@ -74,7 +74,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (inventory[index].itemType == UIManager.instance.buttons[index].GetComponent<InventoryItem>().typeItem)
         {
-
+            UIManager.instance.DestroyItem(index);
         }
     }
 }

@@ -29,7 +29,8 @@ public class PlayerClick : MonoBehaviour
             {
                 if(hit.collider != null && hit.collider.gameObject.GetComponent<ObjectType>() != null)
                 {
-                    // before deleting it, set its sprite from inventory item but before that keep a BUTTON MANAGER which tells u.. which is the NEXT BUTTON SPRITE (easier)
+                    var getObjectType = hit.collider.gameObject.GetComponent<ObjectType>().scriptableItem;
+                    InventoryManager.instance.AddItem(getObjectType);
                 }
             }
         }

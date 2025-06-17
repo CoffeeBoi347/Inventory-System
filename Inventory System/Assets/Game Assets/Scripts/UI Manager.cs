@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance; 
-    public List<InventoryItem> inventoryItems = new List<InventoryItem>();
+ // public List<InventoryItem> inventoryItems = new List<InventoryItem>();
     public List<Image> buttonChildrenImage = new List<Image>();
     public List<Button> buttons = new List<Button>();
 
@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     {
         //ensuring only a single instance persists across all scenes
 
-        if(instance != null & instance != this)
+        if(instance != null && instance != this)
         {
             Destroy(gameObject);
         }
@@ -61,6 +61,13 @@ public class UIManager : MonoBehaviour
     public void AddButton(GameObject buttonType, GameObject buttonParent)
     {
         Instantiate(buttonType, buttonParent.transform);
+    }
+
+    public void DestroyItem(int index)
+    {
+        buttons.RemoveAt(index);
+        buttonChildrenImage.RemoveAt(index);
+        Destroy(buttons[index]);
     }
 
 }

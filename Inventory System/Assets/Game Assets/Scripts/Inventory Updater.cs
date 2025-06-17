@@ -14,9 +14,17 @@ public class InventoryUpdater
 
             addedItem = newItem;
             addedSprite = newSprite[newSprite.Count - 1];
+
+            return this;
         }
 
-        return this;
+        else if(newItem == null)
+        {
+            Debug.Log("Item is empty!");
+            return null;
+        }
+
+        return null;
     }
 
     public void CreateUIElement(GameObject prefab, Transform parent)
