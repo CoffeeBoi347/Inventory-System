@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
     public static UIManager instance; 
  // public List<InventoryItem> inventoryItems = new List<InventoryItem>();
     public List<Image> buttonChildrenImage = new List<Image>();
-    public List<Button> buttons = new List<Button>();
+    public List<GameObject> buttons = new List<GameObject>();
 
     private void Awake() 
     {
@@ -59,16 +59,27 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void AddButton(GameObject buttonType, GameObject buttonParent)
+    public void AddButton(GameObject buttonType, Image childImage)
     {
-        GameObject buttonTypeObj = Instantiate(buttonType, buttonParent.transform);
+        buttons.Add(buttonType);
+        buttonChildrenImage.Add(childImage);
+      //GameObject buttonTypeObj = Instantiate(buttonType, buttonParent.transform);
+      //Image getButtonImage = buttonTypeObj.GetComponentInChildren<Image>();
+      //getButtonImage.sprite = buttonImage;
     }
 
     public void DestroyItem(int index)
     {
+        if(index < 0 || index > buttons.Count)
+        {
+            Debug.LogError("Invalid index!");
+            return;
+        }
+
+        GameObject toDestroy = buttons[index];
         buttons.RemoveAt(index);
         buttonChildrenImage.RemoveAt(index);
-        Destroy(buttons[index]);
+        Destroy(toDestroy);
     }
 
 }

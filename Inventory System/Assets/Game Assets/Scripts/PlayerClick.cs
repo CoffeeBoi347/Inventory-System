@@ -1,11 +1,26 @@
-using System.Dynamic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerClick : MonoBehaviour
 {
+    [SerializeField] private TMP_Text indexTxt;
+    public static PlayerClick instance;
+    public GameObject itemToDelete;
     public ItemScriptable itemScriptable;
     public Sprite currentItemClicked;
     public int indexHolder;
+    private GameObject previouslyDeleted;
+    private void Awake()
+    {
+        if(instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        instance = this;
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     private void Update()
     {
@@ -14,6 +29,7 @@ public class PlayerClick : MonoBehaviour
             if (char.IsDigit(inp))
             {
                 indexHolder = int.Parse(inp.ToString());
+                indexTxt.text = indexHolder.ToString();
             }
         }
 
@@ -22,6 +38,20 @@ public class PlayerClick : MonoBehaviour
 
     void InputControls()
     {
+        if(UIManager.instance.buttons.Count > 0 && indexHolder < UIManager.instance.buttons.Count)
+        {
+            itemToDelete = UIManager.instance.buttons[indexHolder];
+
+            if (previouslyDeleted != null && previouslyDeleted != itemToDelete)
+            {
+                previouslyDeleted.transform.localScale = Vector3.one;
+            }
+
+            previouslyDeleted = itemToDelete;
+
+            itemToDelete.transform.localScale = Vector3.one * 2f;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -31,6 +61,7 @@ public class PlayerClick : MonoBehaviour
             {
                 var getComponentObjectType = hit.collider.GetComponent<ObjectType>();
                 Setup(getComponentObjectType.scriptableItem);
+                Destroy(hit.collider.gameObject);
             }
 
         }

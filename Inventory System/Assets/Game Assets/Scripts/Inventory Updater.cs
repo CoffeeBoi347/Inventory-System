@@ -32,6 +32,9 @@ public class InventoryUpdater : MonoBehaviour
     public void CreateUIElement(GameObject prefab, Transform parent, Sprite newSprite)
     {
         GameObject buttonDataObj = GameObject.Instantiate(prefab, parent);
-        buttonDataObj.GetComponentsInChildren<Image>()[1].sprite = newSprite;
+        var getButtonImage = buttonDataObj.GetComponentsInChildren<Image>()[1];
+        getButtonImage.sprite = newSprite;
+        UIManager.instance.AddButton(buttonDataObj, getButtonImage);
+
     }
 }

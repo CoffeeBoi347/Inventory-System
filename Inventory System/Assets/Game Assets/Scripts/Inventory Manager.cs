@@ -11,13 +11,15 @@ public class InventoryManager : MonoBehaviour
     [Header("Instance")]
 
     public static InventoryManager instance;
+    public InventoryUpdater updater;
 
     [Header("Storing Data")]
 
+    public int currentItems = 0;
     public List<ItemScriptable> inventory = new List<ItemScriptable>();
 //  public List<GameObject> currentInventoryObjs = new List<GameObject>();
     public List<Sprite> inventorySprites = new List<Sprite>();
-
+    public List<GameObject> deletedObjs = new List<GameObject> ();
     public GameObject inventoryObj;
     public GameObject inventoryParent;
 
@@ -47,7 +49,7 @@ public class InventoryManager : MonoBehaviour
 
     public void AddItem(ItemScriptable scriptableItem)
     {
-        InventoryUpdater updater = new InventoryUpdater();
+        currentItems++;
         updater.AddInventory(inventorySprites, inventory, scriptableItem);
         updater.CreateUIElement(inventoryObj, inventoryParent.transform, scriptableItem.itemSprite);
         OnAddItem?.Invoke(updater);
@@ -63,7 +65,7 @@ public class InventoryManager : MonoBehaviour
             inventorySprites.Remove(inventorySprites[holdIndex]);
         }
 
-        else if(holdIndex > inventory.Count)
+        else if(holdIndex > inventory.Count || holdIndex < 0)
         {
             Debug.Log("Out of index!");
         }
@@ -73,6 +75,7 @@ public class InventoryManager : MonoBehaviour
 
     public void DropItem(int index)
     {
+        UIManager.instance.DestroyItem(index);
         if (inventory[index].itemType == UIManager.instance.buttons[index].GetComponent<InventoryItem>().typeItem)
         {
             UIManager.instance.DestroyItem(index);

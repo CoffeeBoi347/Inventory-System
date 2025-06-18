@@ -28,7 +28,7 @@ public class ItemsSpawner : MonoBehaviour
 
     private IEnumerator SpawnObject(float time)
     {
-        int index = Random.Range(0, _objsSpawn.Count - 1);
+        int index = Random.Range(0, _objsSpawn.Count);
         GameObject objToSpawn = _objsSpawn[index];
         float randomPos = Random.Range(leftRange.transform.position.x, rightRange.transform.position.y);
         Vector3 spawnPosition = new Vector3(randomPos, leftRange.transform.position.y, 0f);
